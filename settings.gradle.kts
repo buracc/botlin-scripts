@@ -5,6 +5,7 @@ include(":flipper")
 include(":crabs")
 include(":misc")
 include(":pvp")
+include(":agility")
 
 
 for (project in rootProject.children) {
