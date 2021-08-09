@@ -1,6 +1,6 @@
 package agility;
 
-import dev.botlin.api.provider.actor.Players;
+import dev.botlin.api.entities.actor.Players;
 import net.runelite.api.Player;
 import net.runelite.api.TileObject;
 

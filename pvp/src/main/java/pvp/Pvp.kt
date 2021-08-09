@@ -11,9 +11,9 @@ import dev.botlin.api.magic.Ancient
 import dev.botlin.api.magic.Magic
 import dev.botlin.api.magic.Spell
 import dev.botlin.api.movement.Movement
-import dev.botlin.api.provider.actor.Players
-import dev.botlin.api.provider.container.Equipment
-import dev.botlin.api.provider.container.Inventory
+import dev.botlin.api.entities.actor.Players
+import dev.botlin.api.entities.container.Equipment
+import dev.botlin.api.entities.container.Inventory
 import dev.botlin.api.script.BotScript
 import dev.botlin.api.script.ScriptMeta
 import dev.botlin.api.skill.Skills

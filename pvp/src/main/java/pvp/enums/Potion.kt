@@ -1,6 +1,6 @@
 package pvp.enums
 
-import dev.botlin.api.provider.container.Inventory
+import dev.botlin.api.entities.container.Inventory
 import net.runelite.api.Skill
 import pvp.Pvp.Companion.interact
 import dev.botlin.api.skill.Skills

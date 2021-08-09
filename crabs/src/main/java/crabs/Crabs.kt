@@ -1,27 +1,27 @@
 package crabs
 
-import net.runelite.api.Item
-import net.runelite.api.Skill
-import net.runelite.api.coords.WorldPoint
-import dev.botlin.api.events.ExperienceGained
-import net.runelite.api.widgets.WidgetInfo
 import dev.botlin.api.commons.StopWatch
 import dev.botlin.api.coords.RectangularArea
+import dev.botlin.api.entities.actor.NPCs
+import dev.botlin.api.entities.actor.Players
+import dev.botlin.api.entities.container.Bank
+import dev.botlin.api.entities.container.Inventory
+import dev.botlin.api.entities.tile.TileObjects
+import dev.botlin.api.entities.widget.Widgets
+import dev.botlin.api.events.ExperienceGained
 import dev.botlin.api.game.Client
 import dev.botlin.api.input.Keyboard
 import dev.botlin.api.movement.Movement
-import dev.botlin.api.provider.actor.NPCs
-import dev.botlin.api.provider.actor.Players
-import dev.botlin.api.provider.container.Bank
-import dev.botlin.api.provider.container.Inventory
-import dev.botlin.api.provider.tile.TileObjects
-import dev.botlin.api.provider.widget.Widgets
 import dev.botlin.api.script.BotScript
 import dev.botlin.api.script.ScriptMeta
-import dev.botlin.api.script.paint.tracker.ExperienceTracker
 import dev.botlin.api.script.paint.tracker.PaintStatistic
 import dev.botlin.api.skill.Skills
+import dev.botlin.api.widget.Dialog
 import dev.botlin.api.wrappers.*
+import net.runelite.api.Item
+import net.runelite.api.Skill
+import net.runelite.api.coords.WorldPoint
+import net.runelite.api.widgets.WidgetInfo
 import net.runelite.client.eventbus.Subscribe
 import kotlin.math.abs
 import kotlin.math.floor
@@ -63,8 +63,8 @@ class Crabs : BotScript() {
 //        val rangePot = Inventory.getFirst { it.name.contains("Ranging") && it.actions.contains("Drink") }
         val vial = Inventory.getFirst("Vial")
 
-        if (canContinue()) {
-            continueSpace()
+        if (Dialog.canContinue()) {
+            Dialog.continueSpace()
             println("continue dialog")
             return
         }
@@ -80,7 +80,7 @@ class Crabs : BotScript() {
                 return
             }
 
-            if (Client.getRl().getWidget(WidgetInfo.BANK_CONTAINER) == null) {
+            if (!Bank.isOpen()) {
                 TileObjects.getNearest(10562)?.interact(0)
                 return
             }
@@ -185,18 +185,6 @@ class Crabs : BotScript() {
 
             return
         }
-
-        val crabsMe = NPCs.getAll {
-            it.name == "Sand Crab"
-                    && (it.interacting != null && it.interacting == local)
-        }
-
-        if (crabsMe.size >= 2) {
-            if (local.interacting == null) {
-                Client.getRl().previousMouseButton = 1
-            }
-        }
-
         if (rock != null) {
             if (timer == null) {
                 println("timer start")
@@ -209,7 +197,6 @@ class Crabs : BotScript() {
 //        if (nearestRocks != null) {
 //            afkSpot = nearestRocks.worldLocation
 //        }
-
 
         if (resetTile != null) {
             resetTile = null
@@ -229,20 +216,6 @@ class Crabs : BotScript() {
                     tiles.add(y.worldLocation)
                 }
             }
-        }
-    }
-
-    fun canContinue(): Boolean {
-        val contWidget = Widgets.get(0, 0)
-        val contWidgetWeird = Widgets.get(WidgetInfo.DIALOG2_SPRITE_CONTINUE)
-        val lvlUp = Widgets.get(WidgetInfo.LEVEL_UP_LEVEL)
-
-        return (contWidget != null && contWidget.visible) || (contWidgetWeird != null && contWidgetWeird.visible) || (lvlUp != null && lvlUp.visible)
-    }
-
-    private fun continueSpace() {
-        if (canContinue()) {
-            Keyboard.space()
         }
     }
 }

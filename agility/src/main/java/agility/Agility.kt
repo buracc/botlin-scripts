@@ -3,10 +3,10 @@ package agility
 import dev.botlin.api.commons.Rand
 import dev.botlin.api.commons.Time
 import dev.botlin.api.movement.Movement
-import dev.botlin.api.provider.actor.Players
-import dev.botlin.api.provider.container.Inventory
-import dev.botlin.api.provider.tile.TileItems
-import dev.botlin.api.provider.tile.TileObjects
+import dev.botlin.api.entities.actor.Players
+import dev.botlin.api.entities.container.Inventory
+import dev.botlin.api.entities.tile.TileItems
+import dev.botlin.api.entities.tile.TileObjects
 import dev.botlin.api.script.BotScript
 import dev.botlin.api.script.ScriptMeta
 import dev.botlin.api.widget.Dialog
@@ -78,6 +78,4 @@ class Agility : BotScript() {
             println("Obstacle null")
         }
     }
-
-
 }

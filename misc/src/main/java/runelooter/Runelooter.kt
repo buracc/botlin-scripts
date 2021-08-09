@@ -5,8 +5,8 @@ import dev.botlin.api.commons.StopWatch
 import dev.botlin.api.commons.Time
 import dev.botlin.api.definitions.Definitions
 import dev.botlin.api.events.inventory.InventoryChanged
-import dev.botlin.api.provider.actor.Players
-import dev.botlin.api.provider.tile.TileItems
+import dev.botlin.api.entities.actor.Players
+import dev.botlin.api.entities.tile.TileItems
 import dev.botlin.api.script.BotScript
 import dev.botlin.api.script.ScriptMeta
 import dev.botlin.api.script.paint.tracker.PaintStatistic

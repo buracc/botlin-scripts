@@ -9,20 +9,17 @@ import dev.botlin.api.game.Combat
 import dev.botlin.api.game.Game
 import dev.botlin.api.game.GameSettings
 import dev.botlin.api.movement.Movement
-import dev.botlin.api.provider.actor.NPCs
-import dev.botlin.api.provider.actor.Players
-import dev.botlin.api.provider.container.Inventory
-import dev.botlin.api.provider.tile.TileItems
+import dev.botlin.api.entities.actor.NPCs
+import dev.botlin.api.entities.actor.Players
+import dev.botlin.api.entities.container.Inventory
+import dev.botlin.api.entities.tile.TileItems
 import dev.botlin.api.script.BotScript
 import dev.botlin.api.script.ScriptMeta
 import dev.botlin.api.script.blocking.events.LoginEvent
 import dev.botlin.api.script.paint.tracker.PaintStatistic
 import dev.botlin.api.skill.Skills
 import dev.botlin.api.varps.Varps
-import dev.botlin.api.wrappers.distanceTo
-import dev.botlin.api.wrappers.hasAction
-import dev.botlin.api.wrappers.interact
-import dev.botlin.api.wrappers.name
+import dev.botlin.api.wrappers.*
 import net.runelite.api.Client
 import net.runelite.api.Skill
 import net.runelite.api.coords.WorldPoint
@@ -34,8 +31,6 @@ import javax.inject.Inject
 
 @ScriptMeta("goblinkiller")
 class GoblinKiller : BotScript() {
-    val webhook =
-        DiscordWebhook("https://discordapp.com/api/webhooks/709402272194494508/np386cW7G8eMYkNZ3f2aGGdGVYRodLRiKy0omSKuCGBBKYE1gaIWchEHjA43X4Ju1RWD")
     val location = WorldPoint(3252, 3239, 0)
     private val timer = StopWatch.start()
 
@@ -48,10 +43,6 @@ class GoblinKiller : BotScript() {
         paint.tracker.trackSkill(Skill.STRENGTH)
         paint.tracker.trackSkill(Skill.ATTACK)
         paint.tracker.trackSkill(Skill.HITPOINTS)
-        blockingEventManager.addLoginResponseHandler(LoginEvent.Response.ACCOUNT_DISABLED) {
-            sendDiscordMsg(true, "Banned", "Banned nigga")
-            -1
-        }
     }
 
     override fun loop() {
@@ -79,7 +70,7 @@ class GoblinKiller : BotScript() {
         }
 
         if (location.distanceTo(local) > 20) {
-            Movement.webWalk(location, 3)
+            Movement.walkTo(location)
             return
         }
 
@@ -126,53 +117,17 @@ class GoblinKiller : BotScript() {
             return
         }
 
-        val lootItem = TileItems.getNearest { it.id == 995 && Movement.isReachable(it.tile.worldLocation) }
+        val lootItem = TileItems.getNearest { it.id == 995 && it.isInteractable() }
 
         if (lootItem != null) {
             lootItem.interact("Take")
             return
         }
 
-        val goblin = NPCs.getNearest {
-            it.hasAction("Attack")
-                    && it.distanceTo(location) < 15
-                    && Movement.isReachable(it.worldLocation)
-                    && !it.isDead
-            if (!it.hasAction("Attack") || it.distanceTo(location) > 15 || !Movement.isReachable(it.worldLocation) || it.isDead) {
-                return@getNearest false
-            }
-
-            if (it.interacting != null && it.interacting == local) {
-                return@getNearest true
-            }
-
-            return@getNearest it.interacting == null
+        val goblin = Combat.getAttackableNpc {
+            it.name == "Goblin" && !it.isDead && it.isInteractable()
         } ?: return
 
         goblin.interact("Attack")
-    }
-
-    fun sendDiscordMsg(notify: Boolean = false, title: String, desc: String, vararg fields: Pair<String, String>) {
-        val embed = DiscordWebhook.EmbedObject()
-        webhook.setContent("")
-        webhook.clearEmbeds()
-        if (notify) {
-            webhook.setContent("<@135851218546327562>")
-        }
-
-        if (title.isNotBlank()) {
-            embed.title = title
-        }
-
-        if (desc.isNotBlank()) {
-            embed.description = desc
-        }
-
-        for (field in fields) {
-            embed.addField(field.first, field.second, false)
-        }
-
-        webhook.addEmbed(embed)
-        webhook.execute()
     }
 }

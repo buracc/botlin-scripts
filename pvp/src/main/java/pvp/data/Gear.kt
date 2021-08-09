@@ -1,8 +1,8 @@
 package pvp.data
 
 import dev.botlin.api.game.Combat
-import dev.botlin.api.provider.container.Equipment
-import dev.botlin.api.provider.container.Inventory
+import dev.botlin.api.entities.container.Equipment
+import dev.botlin.api.entities.container.Inventory
 import dev.botlin.api.widget.Prayer
 import dev.botlin.api.wrappers.name
 import pvp.Pvp.Companion.interact

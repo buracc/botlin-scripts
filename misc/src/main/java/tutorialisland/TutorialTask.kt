@@ -1,6 +1,5 @@
 package tutorialisland
 
-import dev.botlin.api.Interactable
 import dev.botlin.api.commons.Rand
 import dev.botlin.api.commons.Time
 import dev.botlin.api.game.Client
@@ -8,20 +7,19 @@ import dev.botlin.api.game.GameSettings
 import dev.botlin.api.input.Keyboard
 import dev.botlin.api.interact.Interact
 import dev.botlin.api.magic.Magic
-import dev.botlin.api.magic.Modern
+import dev.botlin.api.magic.Regular
 import dev.botlin.api.movement.Movement
-import dev.botlin.api.provider.actor.NPCs
-import dev.botlin.api.provider.actor.Players
-import dev.botlin.api.provider.container.Inventory
-import dev.botlin.api.provider.tile.TileObjects
-import dev.botlin.api.provider.widget.Widgets
+import dev.botlin.api.entities.actor.NPCs
+import dev.botlin.api.entities.actor.Players
+import dev.botlin.api.entities.container.Inventory
+import dev.botlin.api.entities.tile.TileObjects
+import dev.botlin.api.entities.widget.Widgets
 import dev.botlin.api.varps.Varps
 import dev.botlin.api.widget.Dialog
 import dev.botlin.api.widget.tab.Tab
 import dev.botlin.api.widget.tab.Tabs
 import dev.botlin.api.wrappers.*
 import net.runelite.api.HintArrowType
-import net.runelite.api.NPC
 import net.runelite.api.Point
 import net.runelite.api.coords.WorldPoint
 import net.runelite.api.widgets.WidgetID
@@ -336,7 +334,7 @@ object TutorialTask {
 
                 val strikeLoc = WorldPoint(3139, 3091, Client.getPlane())
                 if (strikeLoc == local.worldLocation) {
-                    Magic.cast(Modern.WIND_STRIKE, NPCs.getNearest("Chicken")!!)
+                    Magic.cast(Regular.WIND_STRIKE, NPCs.getNearest("Chicken")!!)
                     return
                 }
 
