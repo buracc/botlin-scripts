@@ -44,7 +44,6 @@ class TutorialIsland : BotScript() {
         "Carino"
     )
 
-
     override fun loop() {
         if (Varps[281] < 1000) {
             tutorial()

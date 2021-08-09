@@ -1,7 +1,6 @@
 rootProject.name = "botlin-scripts"
 
 include(":testing")
-include(":flipper")
 include(":crabs")
 include(":misc")
 include(":pvp")

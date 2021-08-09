@@ -40,11 +40,6 @@ class GoblinKiller : BotScript() {
     override fun loop() {
         val local = Players.getLocal() ?: return
 
-        if (Varps[281] < 1000) {
-            TutorialTask.executeOld()
-            return
-        }
-
         if (!Movement.isRunEnabled() && Movement.getRunEnergy() > Rand.nextInt(1, 80)) {
             Movement.toggleRun()
             return
