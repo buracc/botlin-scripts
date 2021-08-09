@@ -3,10 +3,7 @@ package goblinkiller
 import dev.botlin.api.commons.Rand
 import dev.botlin.api.commons.StopWatch
 import dev.botlin.api.commons.Time
-import dev.botlin.api.definitions.Definitions
-import dev.botlin.api.events.inventory.InventoryChanged
 import dev.botlin.api.game.Combat
-import dev.botlin.api.game.Game
 import dev.botlin.api.game.GameSettings
 import dev.botlin.api.movement.Movement
 import dev.botlin.api.entities.actor.NPCs
@@ -15,7 +12,6 @@ import dev.botlin.api.entities.container.Inventory
 import dev.botlin.api.entities.tile.TileItems
 import dev.botlin.api.script.BotScript
 import dev.botlin.api.script.ScriptMeta
-import dev.botlin.api.script.blocking.events.LoginEvent
 import dev.botlin.api.script.paint.tracker.PaintStatistic
 import dev.botlin.api.skill.Skills
 import dev.botlin.api.varps.Varps
@@ -23,10 +19,6 @@ import dev.botlin.api.wrappers.*
 import net.runelite.api.Client
 import net.runelite.api.Skill
 import net.runelite.api.coords.WorldPoint
-import net.runelite.api.events.GameTick
-import net.runelite.client.eventbus.Subscribe
-import net.runelite.client.game.ItemManager
-import tutorialisland.TutorialTask
 import javax.inject.Inject
 
 @ScriptMeta("goblinkiller")

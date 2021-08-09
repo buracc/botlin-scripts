@@ -1,6 +1,5 @@
 package test
 
-import dev.botlin.api.movement.Movement
 import dev.botlin.api.entities.actor.NPCs
 import dev.botlin.api.entities.actor.Players
 import dev.botlin.api.script.BotScript
