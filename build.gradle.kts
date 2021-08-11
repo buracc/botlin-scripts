@@ -25,7 +25,7 @@ allprojects {
     }
 
     dependencies {
-        compileOnly(files(System.getProperty("user.home") + "/.botlin/runelite-client-4.9.10-api.jar"))
+        compileOnly(files(System.getProperty("user.home") + "/.botlin/botlin-4.9.10-api.jar"))
     }
 
     configure<JavaPluginConvention> {
