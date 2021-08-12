@@ -580,8 +580,8 @@ class Pvp : BotScript() {
         }
     }
 
-    override fun loop() {
-        nextReturn = 50
+    override fun loop(): Int {
+        return 50
     }
 
     companion object {

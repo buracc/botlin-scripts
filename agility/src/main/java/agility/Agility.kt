@@ -27,7 +27,7 @@ class Agility : BotScript() {
         println("detected course $course")
     }
 
-    override fun loop() {
+    override fun loop(): Int {
         val food = Inventory.getFirst { it.actions.contains("Eat") }
 
         if (Dialog.canContinue()) {
@@ -37,7 +37,7 @@ class Agility : BotScript() {
         obstacle = course.getNext(Players.getLocal())
         if (obstacle == null) {
             println("obstacle cannot be detected")
-            return
+            return 1000
         }
 
         val obs: TileObject? =
@@ -53,19 +53,19 @@ class Agility : BotScript() {
 
         if (Movement.getRunEnergy() > Rand.nextInt(5, 55) && !Movement.isRunEnabled()) {
             Movement.toggleRun()
-            return
+            return 1000
         }
 
         if (mark != null && obstacle!!.area.contains(mark.tile)) {
             mark.interact("Take")
-            return
+            return 1000
         }
 
         if (obs != null) {
             val local = Players.getLocal()!!
 
             if (local.animation != -1 || local.isMoving) {
-                return
+                return 1000
             }
 
             for (i in 0..Rand.nextInt(3, 5)) {
@@ -77,5 +77,7 @@ class Agility : BotScript() {
         } else {
             println("Obstacle null")
         }
+
+        return 1000
     }
 }

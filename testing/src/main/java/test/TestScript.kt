@@ -11,11 +11,11 @@ import dev.botlin.api.wrappers.isInteractable
 @ScriptMeta("chickenkiller")
 class TestScript : BotScript() {
 
-    override fun loop() {
-        val local = Players.getLocal() ?: return
+    override fun loop(): Int {
+        val local = Players.getLocal() ?: return 1000
 
         if (local.interacting != null) {
-            return
+            return 1000
         }
 
         val chicken = NPCs.getNearest {
@@ -23,9 +23,10 @@ class TestScript : BotScript() {
                     && it.distanceTo(local.worldLocation) < 10
                     && !it.isDead
                     && it.isInteractable()
-        } ?: return
+        } ?: return 1000
 
         chicken.interact("Attack")
+        return 1000
     }
 
     override fun onStart(vararg startArgs: String) {

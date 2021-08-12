@@ -37,12 +37,12 @@ class GoblinKiller : BotScript() {
         paint.tracker.trackSkill(Skill.HITPOINTS)
     }
 
-    override fun loop() {
-        val local = Players.getLocal() ?: return
+    override fun loop(): Int {
+        val local = Players.getLocal() ?: return 1000
 
         if (!Movement.isRunEnabled() && Movement.getRunEnergy() > Rand.nextInt(1, 80)) {
             Movement.toggleRun()
-            return
+            return 1000
         }
 
         for (item in Inventory.getAll {
@@ -53,19 +53,19 @@ class GoblinKiller : BotScript() {
         }
 
         if (local.isMoving) {
-            return
+            return 1000
         }
 
         if (location.distanceTo(local) > 20) {
             Movement.walkTo(location)
-            return
+            return 1000
         }
 
         val gravestone = NPCs.getNearest { it.hasAction("Loot") }
 
         if (gravestone != null) {
             gravestone.interact("Loot")
-            return
+            return 1000
         }
 
         val sword = Inventory.getFirst("Bronze sword")
@@ -73,48 +73,49 @@ class GoblinKiller : BotScript() {
 
         if (sword != null) {
             sword.interact("Wield")
-            return
+            return 1000
         }
 
         if (shield != null) {
             shield.interact("Wield")
-            return
+            return 1000
         }
 
         if (!GameSettings.Volume.isFullMuted()) {
             GameSettings.Volume.muteAll()
-            return
+            return 1000
         }
 
         if (Skills.getLevel(Skill.STRENGTH) > Skills.getLevel(Skill.ATTACK) &&
             Combat.getSelectedStyle() != Combat.AttackStyle.FIRST
         ) {
             Combat.selectStyle(Combat.AttackStyle.FIRST)
-            return
+            return 1000
         }
 
         if (Skills.getLevel(Skill.ATTACK) > Skills.getLevel(Skill.STRENGTH) &&
             Combat.getSelectedStyle() != Combat.AttackStyle.SECOND
         ) {
             Combat.selectStyle(Combat.AttackStyle.SECOND)
-            return
+            return 1000
         }
 
         if (local.interacting != null) {
-            return
+            return 1000
         }
 
         val lootItem = TileItems.getNearest { it.id == 995 && it.isInteractable() }
 
         if (lootItem != null) {
             lootItem.interact("Take")
-            return
+            return 1000
         }
 
         val goblin = Combat.getAttackableNpc {
             it.name == "Goblin" && !it.isDead && it.isInteractable()
-        } ?: return
+        } ?: return 1000
 
         goblin.interact("Attack")
+        return 1000
     }
 }

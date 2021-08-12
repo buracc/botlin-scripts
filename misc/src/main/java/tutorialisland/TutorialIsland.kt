@@ -44,10 +44,12 @@ class TutorialIsland : BotScript() {
         "Carino"
     )
 
-    override fun loop() {
+    override fun loop(): Int {
         if (Varps[281] < 1000) {
             tutorial()
         }
+
+        return 1000
     }
 
     override fun onStart(vararg startArgs: String) {

@@ -48,7 +48,7 @@ class Crabs : BotScript() {
         paint.tracker.trackSkill(e.skill)
     }
 
-    override fun loop() {
+    override fun loop(): Int {
         if (tiles.isEmpty()) {
             println("loading tiles")
             loadTiles()
@@ -66,28 +66,28 @@ class Crabs : BotScript() {
         if (Dialog.canContinue()) {
             Dialog.continueSpace()
             println("continue dialog")
-            return
+            return 1000
         }
 
         if (local.isMoving) {
             println("pathing")
-            return
+            return 1000
         }
 
         if (food == null && afkSpot.distanceTo(local.worldLocation) < 25) {
             if (bank == null) {
                 Movement.walk(afkSpot.dx(-7))
-                return
+                return 1000
             }
 
             if (!Bank.isOpen()) {
                 TileObjects.getNearest(10562)?.interact(0)
-                return
+                return 1000
             }
 
             if (Inventory.isFull()) {
                 Bank.depositInventory()
-                return
+                return 1000
             }
 
             for ((itemName, amount) in invSetup) {
@@ -96,7 +96,7 @@ class Crabs : BotScript() {
                     val rest = Inventory.getCount { it.name.contains(itemName) } - amount
                     if (rest > 0) {
                         Bank.deposit({ it.name.contains(itemName) }, rest)
-                        return
+                        return 1000
                     }
 
                     if (rest < 0) {
@@ -107,29 +107,29 @@ class Crabs : BotScript() {
                         continue
                     }
 
-                    return
+                    return 1000
                 }
 
                 Bank.withdraw({ it.name.contains(itemName) }, amount)
-                return
+                return 1000
             }
 
-            return
+            return 1000
         }
 
         if (Skills.healthPercent <= 40) {
             Inventory.getFirst("Tuna")?.interact("Eat")
-            return
+            return 1000
         }
 
         if (Movement.getRunEnergy() > 2 && !Movement.isRunEnabled()) {
             Movement.toggleRun()
-            return
+            return 1000
         }
 
         if (vial != null) {
             vial.interact("Drop")
-            return
+            return 1000
         }
 
 //        val rangePotBoost = floor(5 + (Skills.getLevel(Skill.RANGED) * 0.15))
@@ -138,7 +138,7 @@ class Crabs : BotScript() {
 //
 //        if (rangePot != null && (rangeBoostPercent <= 50)) {
 //            rangePot.interact("Drink")
-//            return
+//            return 1000
 //        }
 
         val atkpotBoost = floor(5 + (Skills.getLevel(Skill.ATTACK) * 0.15))
@@ -147,7 +147,7 @@ class Crabs : BotScript() {
 
         if (attkPot != null && (atkBoostPercent <= 50)) {
             attkPot.interact("Drink")
-            return
+            return 1000
         }
 
         val strpotBoost = floor(5 + (Skills.getLevel(Skill.STRENGTH) * 0.15))
@@ -155,27 +155,27 @@ class Crabs : BotScript() {
         val strBoostPercent = floor((100 / strpotBoost) * currStrBoost)
         if (strPot != null && (strBoostPercent < 50)) {
             strPot.interact("Drink")
-            return
+            return 1000
         }
 
         if (timer != null && timer!!.getElapsed().seconds > 5L) {
             if (resetTile == null) {
                 resetTile = tiles.random()
-                return
+                return 1000
             }
 
             if (local.worldLocation.distanceTo(resetTile) > 2) {
                 Movement.walk(resetTile!!)
-                return
+                return 1000
             }
 
             timer = null
-            return
+            return 1000
         }
 
         if (local.worldLocation != afkSpot) {
             Movement.walk(afkSpot)
-            return
+            return 1000
         }
 
         if (local.interacting != null) {
@@ -183,14 +183,14 @@ class Crabs : BotScript() {
                 timer = null
             }
 
-            return
+            return 1000
         }
         if (rock != null) {
             if (timer == null) {
                 println("timer start")
                 timer = StopWatch.start()
             }
-            return
+            return 1000
         }
 
 //        val nearestRocks = NPCs.getNearest { it.name == "Sandy rocks" && workArea.contains(it) }
@@ -205,6 +205,8 @@ class Crabs : BotScript() {
         if (timer != null) {
             timer = null
         }
+
+        return 1000
     }
 
     fun loadTiles() {

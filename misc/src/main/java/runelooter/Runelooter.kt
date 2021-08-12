@@ -26,18 +26,19 @@ class Runelooter : BotScript() {
     private val loot = mutableMapOf<Int, Int>()
     private val timer = StopWatch.start()
 
-    override fun loop() {
-        nextReturn = 150
-        if (Players.getLocal()!!.isMoving) {
-            nextReturn = 2000
-            return
+    override fun loop(): Int {
+        val local = Players.getLocal() ?: return 1000
+        if (local.isMoving) {
+            return 2000
         }
 
-        val loot = TileItems.getAll { it.tile.distanceTo(Players.getLocal()!!) < 4 && it.name.contains("rune") }
+        val loot = TileItems.getAll { it.tile.distanceTo(local) < 4 && it.name.contains("rune") }
         loot.forEach {
             it.interact("Take")
             Time.sleep(100)
         }
+
+        return 500
     }
 
     @Subscribe
